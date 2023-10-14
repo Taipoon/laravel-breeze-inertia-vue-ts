@@ -18,8 +18,10 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
+        'userCanLogin' => Route::has('user.login'),
+        'userCanRegister' => Route::has('user.register'),
+        'adminCanLogin' => Route::has('admin.login'),
+        'adminCanRegister' => Route::has('admin.register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
@@ -29,10 +31,18 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:user')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::prefix('user')->name('user.')->group(function () {
+    Route::middleware('guest:user')->group(base_path('routes/auth/guest.php'));
+    Route::middleware('auth:user')->group(base_path('routes/auth/auth.php'));
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::middleware('guest:admin')->group(base_path('routes/auth/guest.php'));
+    Route::middleware('auth:admin')->group(base_path('routes/auth/auth.php'));
+});
