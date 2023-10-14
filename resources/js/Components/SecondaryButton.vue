@@ -1,10 +1,10 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 withDefaults(
     defineProps<{
         type?: 'button' | 'submit' | 'reset';
     }>(),
     {
-        type: 'button',
+        type: 'button'
     }
 );
 </script>

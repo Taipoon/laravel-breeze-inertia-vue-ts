@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 
 const props = withDefaults(
@@ -10,7 +10,7 @@ const props = withDefaults(
     {
         align: 'right',
         width: '48',
-        contentClasses: 'py-1 bg-white',
+        contentClasses: 'py-1 bg-white'
     }
 );
 
@@ -25,7 +25,7 @@ onUnmounted(() => document.removeEventListener('keydown', closeOnEscape));
 
 const widthClass = computed(() => {
     return {
-        48: 'w-48',
+        48: 'w-48'
     }[props.width.toString()];
 });
 
@@ -59,14 +59,8 @@ const open = ref(false);
             leave-from-class="opacity-100 scale-100"
             leave-to-class="opacity-0 scale-95"
         >
-            <div
-                v-show="open"
-                class="absolute z-50 mt-2 rounded-md shadow-lg"
-                :class="[widthClass, alignmentClasses]"
-                style="display: none"
-                @click="open = false"
-            >
-                <div class="rounded-md ring-1 ring-black ring-opacity-5" :class="contentClasses">
+            <div v-show="open" :class="[widthClass, alignmentClasses]" class="absolute z-50 mt-2 rounded-md shadow-lg" style="display: none" @click="open = false">
+                <div :class="contentClasses" class="rounded-md ring-1 ring-black ring-opacity-5">
                     <slot name="content" />
                 </div>
             </div>
