@@ -34,11 +34,26 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'guard' => $this->getGuard(),
             ],
-            'ziggy' => fn () => [
+            'ziggy' => fn() => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
         ];
+    }
+
+    private function getGuard(): int|string|null
+    {
+        $currentGuard = null;
+
+        foreach (config('auth.guards') as $guard => $details) {
+            if (auth()->guard($guard)->check()) {
+                $currentGuard = $guard;
+                break;
+            }
+        }
+        
+        return $currentGuard;
     }
 }
