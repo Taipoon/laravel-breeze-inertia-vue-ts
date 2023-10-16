@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\User\Auth;
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Admin;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -26,11 +26,13 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:' . User::class,
+            # TODO: 新しく追加した認証ユーザーモデルを指定してください。
+            'email' => 'required|string|email|max:255|unique:' . Admin::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
+        # TODO: 新しく追加した認証ユーザーモデルを指定してください。
+        $user = Admin::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -38,9 +40,11 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::guard('user')->login($user);
+        # TODO: 新しく追加したガードを明示的に指定してください。
+        Auth::guard('admin')->login($user);
 
-        return redirect(RouteServiceProvider::USER_DASHBOARD);
+        # TODO: ガードに応じて認証済みリクエストのリダイレクト先を指定してください。
+        return redirect(RouteServiceProvider::ADMIN_DASHBOARD);
     }
 
     /**
@@ -48,6 +52,6 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('User/Auth/Register');
+        return Inertia::render('Admin/Auth/Register');
     }
 }

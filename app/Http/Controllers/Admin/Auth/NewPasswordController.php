@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User\Auth;
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\PasswordReset;
@@ -21,7 +21,7 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request): Response
     {
-        return Inertia::render('User/Auth/ResetPassword', [
+        return Inertia::render('Admin/Auth/ResetPassword', [
             'email' => $request->email,
             'token' => $request->route('token'),
         ]);
@@ -43,7 +43,8 @@ class NewPasswordController extends Controller
         // Here we will attempt to reset the user's password. If it is successful we
         // will update the password on an actual user model and persist it to the
         // database. Otherwise we will parse the error and return the response.
-        $status = Password::broker('users')->reset(
+        # TODO: `config/auth.php`の`passwords`キーに追加した broker を明示的に指定してください。
+        $status = Password::broker('admins')->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
                 $user->forceFill([
@@ -58,8 +59,9 @@ class NewPasswordController extends Controller
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
+        # TODO: ガードに応じて未認証リクエストのリダイレクト先を指定してください。
         if ($status == Password::PASSWORD_RESET) {
-            return redirect()->route('user.login')->with('status', __($status));
+            return redirect()->route('admin.login')->with('status', __($status));
         }
 
         throw ValidationException::withMessages([

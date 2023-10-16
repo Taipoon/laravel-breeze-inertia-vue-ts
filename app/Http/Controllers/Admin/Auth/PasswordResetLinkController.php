@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User\Auth;
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
@@ -17,7 +17,7 @@ class PasswordResetLinkController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('User/Auth/ForgotPassword', [
+        return Inertia::render('Admin/Auth/ForgotPassword', [
             'status' => session('status'),
         ]);
     }
@@ -36,7 +36,8 @@ class PasswordResetLinkController extends Controller
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::broker('users')->sendResetLink(
+        # TODO: `config/auth.php`の`passwords`キーに追加した broker を明示的に指定してください。
+        $status = Password::broker('admins')->sendResetLink(
             $request->only('email')
         );
 

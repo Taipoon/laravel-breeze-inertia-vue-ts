@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\AdminPasswordResetNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -42,4 +43,21 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * パスワードリセットメールを送信します。
+     * @param $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        /**
+         * TODO: ガードごとのパスワードリセットメールの設定
+         * パスワード再設定用フォームのルーティングをガードに対応する形でオーバーライドするために、
+         *
+         * AdminPasswordResetNotification クラスを参考に、新たな通知クラスを作成し、
+         * それを使用する認証モデルの sendPasswordResetNotification($token) で利用してください。
+         */
+        $this->notify(new AdminPasswordResetNotification($token));
+    }
 }

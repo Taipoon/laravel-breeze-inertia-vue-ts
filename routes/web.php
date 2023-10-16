@@ -32,6 +32,6 @@ Route::prefix('user')->name('user.')->group(function () {
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::middleware('guest:admin')->group(base_path('routes/admin/guest.php'));
+    Route::middleware('guest:user')->group(base_path('routes/admin/guest.php'));
     Route::middleware('auth:admin')->group(base_path('routes/admin/auth.php'));
 });

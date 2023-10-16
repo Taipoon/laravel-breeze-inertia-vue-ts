@@ -30,11 +30,13 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $guard = $this->getGuard();
+
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
-                'guard' => $this->getGuard(),
+                'user' => $request->user($guard),
+                'guard' => $guard,
             ],
             'ziggy' => fn() => [
                 ...(new Ziggy)->toArray(),
@@ -43,6 +45,11 @@ class HandleInertiaRequests extends Middleware
         ];
     }
 
+    /**
+     * 現在のリクエストが認証されている場合、ガードを取得します。
+     *
+     * @return int|string|null
+     */
     private function getGuard(): int|string|null
     {
         $currentGuard = null;
@@ -53,7 +60,7 @@ class HandleInertiaRequests extends Middleware
                 break;
             }
         }
-        
+
         return $currentGuard;
     }
 }
