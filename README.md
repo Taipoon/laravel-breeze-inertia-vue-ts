@@ -16,13 +16,13 @@ git clone -b multi-authentication git@github.com:Taipoon/laravel-breeze-inertia-
 git clone -b use-primevue git@github.com:Taipoon/laravel-breeze-inertia-vue-ts.git 
 ```
 
-### Installed Primevue and using sakai-vue layout template
+### Installed Primevue and using `sakai-vue` layout template
 
 ```shell
 git clone -b apply-sakai-vue git@github.com:Taipoon/laravel-breeze-inertia-vue-ts.git
 ```
 
-### Backend with multi-authentication (breeze) and Primevue (sakai-vue template) frontend
+### Backend with multi-authentication (breeze) and Frontend with Primevue (`sakai-vue` template)
 
 ```shell
 git clone -b multi-auth-sakai-vue git@github.com:Taipoon/laravel-breeze-inertia-vue-ts.git
