@@ -1,16 +1,15 @@
 <script lang="ts" setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
+import UserAuthenticatedLayout from '@/Layouts/UserAuthenticatedLayout.vue';
 </script>
 
 <template>
-    <AppLayout title="Dashboard">
-        <div class="grid">
-            <div class="col-12">
-                <div class="card">
-                    <h5>You're logged in!</h5>
-                    <p>Your Application contents here.</p>
-                </div>
-            </div>
+    <UserAuthenticatedLayout title="Dashboard">
+        <div class="card">
+            <p class="bg-gray-700 text-white font-semibold p-4 rounded-lg">
+                <code>
+                    <pre>{{ $page.props.auth }}</pre>
+                </code>
+            </p>
         </div>
-    </AppLayout>
+    </UserAuthenticatedLayout>
 </template>

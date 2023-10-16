@@ -2,8 +2,10 @@
 import { Head, Link } from '@inertiajs/vue3';
 
 defineProps<{
-    canLogin?: boolean;
-    canRegister?: boolean;
+    userCanLogin?: boolean;
+    userCanRegister?: boolean;
+    adminCanLogin?: boolean;
+    adminCanRegister?: boolean;
     laravelVersion: string;
     phpVersion: string;
 }>();
@@ -14,13 +16,23 @@ defineProps<{
     <div class="flex flex-col justify-center items-center h-screen">
         <p class="text-center font-semibold text-2xl">Laravel + Inertia + Vue + PrimeVue Starter Kit</p>
         <p v-if="$page.props.auth.user">
-            <Link :href="route('dashboard')"> Dashboard</Link>
+            <Link v-if="$page.props.auth.guard === 'user'" :href="route('user.dashboard')">User Dashboard</Link>
+            <Link v-if="$page.props.auth.guard === 'admin'" :href="route('admin.dashboard')">Admin Dashboard</Link>
         </p>
-        <p v-if="canLogin">
-            <Link :href="route('login')">Login</Link>
-        </p>
-        <p v-if="canRegister">
-            <Link :href="route('register')">Register</Link>
-        </p>
+        <template v-else>
+            <p v-if="userCanLogin">
+                <Link :href="route('user.login')">User Login</Link>
+            </p>
+            <p v-if="adminCanLogin">
+                <Link :href="route('admin.login')">Admin Login</Link>
+            </p>
+
+            <p v-if="userCanRegister">
+                <Link :href="route('user.register')">User Register</Link>
+            </p>
+            <p v-if="adminCanRegister">
+                <Link :href="route('admin.register')">Admin Register</Link>
+            </p>
+        </template>
     </div>
 </template>

@@ -61,6 +61,10 @@ defineProps({
     title: {
         type: String,
         default: ''
+    },
+    menuModel: {
+        type: Array,
+        default: []
     }
 });
 </script>
@@ -70,7 +74,7 @@ defineProps({
     <div :class="containerClass" class="layout-wrapper">
         <AppTopbar />
         <div class="layout-sidebar">
-            <AppSidebar />
+            <AppSidebar :menu-model="menuModel" />
         </div>
         <div class="layout-main-container">
             <div class="layout-main">
